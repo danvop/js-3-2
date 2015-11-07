@@ -47,8 +47,12 @@
 			req.open("POST", "searchbook.php", true);
 
 			// Установка заголовков
+            // Строка запроса ниже подтверждает, что запрос пришел из
+            // веб формы и заполнит Method POST, иначе не заполнит
 			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			//req.setRequestHeader("Content-Length", searchString.length);
+			//можно было бы отправить длину заговолка, но request сам
+            //..ее посылает
+            //req.setRequestHeader("Content-Length", searchString.length);
 			
 			// Отправка данных
 			req.send(searchString);			
