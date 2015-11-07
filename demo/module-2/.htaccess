@@ -1,0 +1,2 @@
+# .htaccess
+Header set Cache-Control "no-store, no-cache, max-age=0"

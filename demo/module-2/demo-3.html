@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>Синхронные и асинхронные запросы</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="ru" />
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+	<script type="text/javascript" src="../xmlhttprequest.js"></script>
+	<script type="text/javascript">
+		// URL сценария, возвращающего время
+		var request;
+		// Асинхронный запрос
+		function showTime(){
+			// Запрос
+          request = getXmlHttpRequest();
+          request.open("GET", "time-head.php", true);
+          request.send(null);
+          //setInterval('showTime()', 1000);
+          request.onreadystatechange = function(){
+            if( request.readyState === 4 ){
+              document.getElementById("result").innerHTML =
+                request.getResponseHeader("My-Time");
+            }
+          };
+		}
+	</script>
+</head>
+<body>
+  <h1>Текущее время</h1>
+  <div id="result"></div>
+  <div id="async">
+    <button onclick="showTime()">Показать время</button>
+  </div>
+</body>
+</html>
+
