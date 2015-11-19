@@ -118,7 +118,7 @@
         //отображение списка пользователей
         for (var i = 0; i < users.length; i++){
           var li = document.createElement("li");
-          li.id = users[i].id;
+          li.id = users[i].login;
           var liText = document.createTextNode(users[i].name);
           li.appendChild(liText);
           ul.appendChild(li);
