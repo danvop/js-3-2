@@ -98,10 +98,41 @@
 		**
 		*/
 		
-		function showOnLineUsers() {}
-
-		
-	</script>
+		function showOnLineUsers() {
+      var divUsers = document.getElementById("divUsers");
+      var ul = divUsers.getElementsByTagName("ul")[0];
+      
+      //запрос пользователей ONLINE
+      var jsonTicket = JSON.stringify(ticket);
+      var req = getXmlHttpRequest();
+      req.onreadystatechange = function(){
+        if (req.readyState != 4) return;
+        
+        //Получение списка пользователей
+        users = JSON.parse(req.responseText);
+        
+        //Очистка списка пользователей
+        while (ul.hasChildNodes())
+          ul.removeChild(ul.lastChild);
+        
+        //отображение списка пользователей
+        for (var i = 0; i < users.length; i++){
+          var li = document.createElement("li");
+          li.id = users[i].id;
+          var liText = document.createTextNode(users[i].name);
+          li.appendChild(liText);
+          ul.appendChild(li);
+        }
+        
+        // Таймер на исполнение следующего цикла
+        window.setTimeout("showOnLineUsers()", 3000);
+      };
+      req.open("POST", "get_online_users.php", true);
+      req.setRequestHeader("Content-Type","text/plain");
+      //req.setRequestHeader("Content-Length",jsonTicket.length);
+      req.send(jsonTicket);
+    }
+  </script>
 </head>
 <body>
 	<h1>Пользователи на сайте</h1>
