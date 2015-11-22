@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<title>Взаимодействие с XML-RPC сервером</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="ru" />
+<script type="text/javascript" src="../xmlhttprequest.js"></script>
+<script type="text/javascript" src="xmlrpc.js"></script>
+<script type="text/javascript" src="xslt.js"></script>
+<script type="text/javascript" src="xmltools.js"></script>
+<script type="text/javascript">
+  function sayHello(){
+    var userName = document.getElementById("txtUserName").value;
+
+    // Формируем сообщение
+    var msg = new XMLRPCMessage("simpleServer.sayHello", "utf-8");
+    msg.addParameter(userName);
+    var rawData = msg.xml();
+
+    // Запрос сервера
+    // Объект запроса
+    var req = getXmlHttpRequest();
+    req.onreadystatechange = function(){
+      if (req.readyState != 4) return;
+      // Получаем DOM документ
+      var dom = req.responseXML;
+      var xsl = loadXML("template.xsl");
+      document.getElementById("result").innerHTML =
+      xsltTransform(dom, xsl);
+      };
+    req.open("POST", "demo-2-xml-rpc-server.php", true);
+    req.setRequestHeader("Content-Type", "text/xml");
+    req.send(rawData);
+  }
+</script>
+</head>
+<body>
+  <h1>Взаимодействие с XML-RPC сервером</h1>
+    <div id ="result"></div>
+    <form action="#" onsubmit="return false">
+        <label for="txtUserName">Ваше имя:</label>
+        <input id="txtUserName" value="Пользователь" />
+        <button onclick="sayHello()">Привет</button>
+    </form>
+</body>
+</html>
+
